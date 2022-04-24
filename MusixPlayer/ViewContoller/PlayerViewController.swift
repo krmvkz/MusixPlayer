@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import AVFoundation
 import AVFAudio
 
 final class PlayerViewController: UIViewController {
@@ -23,13 +22,13 @@ final class PlayerViewController: UIViewController {
     @IBOutlet private weak var previousButton: UIButton!
     
 // - MARK: Properties
-    var player: AVAudioPlayer!
+    private var player: AVAudioPlayer!
     var songs: [Song] = []
     var songIndex: Int?
     
-    var time: TimeInterval = 0.01
-    var timer = Timer()
-    var holdTimer = Timer()
+    private var time: TimeInterval = 0.01
+    private var timer = Timer()
+    private var holdTimer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +36,14 @@ final class PlayerViewController: UIViewController {
         updateView(with: songs[songIndex!])
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         stopPlayer()
     }
     
     
 // - MARK: Actions
-    @IBAction func playButtonPressed(_ sender: UIButton) {
+    @IBAction private func playButtonPressed(_ sender: UIButton) {
         if player.isPlaying {
             sender.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
             pausePlayer()
@@ -55,15 +54,15 @@ final class PlayerViewController: UIViewController {
         }
     }
     
-    @IBAction func nextButtonPressed(_ sender: UIButton) {
+    @IBAction private func nextButtonPressed(_ sender: UIButton) {
         playNext()
     }
     
-    @IBAction func previousButtonPressed(_ sender: UIButton) {
+    @IBAction private func previousButtonPressed(_ sender: UIButton) {
         playPrevious()
     }
     
-    @IBAction func fastForwardPressed(_ sender: UIButton) {
+    @IBAction private func fastForwardPressed(_ sender: UIButton) {
         time = player.currentTime
         time += 5.0
         if (time > player.duration) {
@@ -74,7 +73,7 @@ final class PlayerViewController: UIViewController {
         }
     }
     
-    @IBAction func fastBackwardPressed(_ sender: UIButton) {
+    @IBAction private func fastBackwardPressed(_ sender: UIButton) {
         time = player.currentTime
         time -= 5.0
         if (time < 0.0) {
